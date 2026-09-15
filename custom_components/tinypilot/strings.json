@@ -1,0 +1,81 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to TinyPilot",
+        "description": "Enter the TinyPilot device's hostname or IP and the REST API Bearer token from /etc/tinypilot/custom-api.conf on the device.",
+        "data": {
+          "host": "Host",
+          "api_key": "API key"
+        }
+      },
+      "confirm": {
+        "title": "Confirm this device",
+        "description": "Connected to **{hostname}** (TinyPilot {tinypilot_version}) at {host}.\n\nTLS certificate SHA-256 fingerprint:\n`{fingerprint}`\n\nThis fingerprint will be pinned -- Home Assistant will only trust exactly this certificate for this device from now on. Confirm it matches what you expect before continuing."
+      },
+      "reauth_confirm": {
+        "title": "Reconnect to TinyPilot",
+        "description": "Re-enter the host and API key for this device. This also re-pins its TLS certificate.",
+        "data": {
+          "host": "Host",
+          "api_key": "API key"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not connect to the device. Check the host and that the API service is running.",
+      "invalid_auth": "The API key was rejected.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This device is already configured.",
+      "reauth_successful": "Re-authentication was successful."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "video_online": { "name": "Video source online" },
+      "keyboard_ready": { "name": "Keyboard ready" },
+      "mouse_ready": { "name": "Mouse ready" }
+    },
+    "sensor": {
+      "tinypilot_version": { "name": "TinyPilot version" },
+      "api_version": { "name": "API version" }
+    },
+    "switch": {
+      "jiggler": { "name": "Mouse jiggler" }
+    }
+  },
+  "services": {
+    "paste_text": {
+      "name": "Paste text",
+      "description": "Types text onto the target machine via the TinyPilot's emulated USB keyboard.",
+      "fields": {
+        "config_entry_id": { "name": "Device", "description": "The TinyPilot device to send this to." },
+        "text": { "name": "Text", "description": "The text to type." },
+        "language": { "name": "Language", "description": "Keyboard layout code, e.g. en-US." },
+        "delay_ms": { "name": "Delay", "description": "Delay between keystrokes in milliseconds." }
+      }
+    },
+    "send_keystroke": {
+      "name": "Send keystroke",
+      "description": "Sends a single hardware keystroke or key combination.",
+      "fields": {
+        "config_entry_id": { "name": "Device", "description": "The TinyPilot device to send this to." },
+        "code": { "name": "Key code", "description": "JS key code, e.g. Enter, KeyA, ArrowUp." },
+        "ctrl": { "name": "Ctrl", "description": "Hold Ctrl." },
+        "shift": { "name": "Shift", "description": "Hold Shift." },
+        "alt": { "name": "Alt", "description": "Hold Alt." },
+        "meta": { "name": "Meta", "description": "Hold the Meta/Cmd/Win key." }
+      }
+    },
+    "run_script": {
+      "name": "Run script",
+      "description": "Runs an allowlisted TinyPilot user script.",
+      "fields": {
+        "config_entry_id": { "name": "Device", "description": "The TinyPilot device to run this on." },
+        "name": { "name": "Script name", "description": "e.g. calendar-extractor" }
+      }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+paste_text:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: tinypilot
+    text:
+      required: true
+      example: "Hello from Home Assistant"
+      selector:
+        text:
+    language:
+      example: "en-US"
+      selector:
+        text:
+    delay_ms:
+      example: 5
+      selector:
+        number:
+          min: 0
+          max: 100
+          unit_of_measurement: ms
+
+send_keystroke:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: tinypilot
+    code:
+      example: "Enter"
+      selector:
+        text:
+    ctrl:
+      selector:
+        boolean:
+    shift:
+      selector:
+        boolean:
+    alt:
+      selector:
+        boolean:
+    meta:
+      selector:
+        boolean:
+
+run_script:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: tinypilot
+    name:
+      required: true
+      example: "calendar-extractor"
+      selector:
+        text:
