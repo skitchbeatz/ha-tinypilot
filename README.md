@@ -11,7 +11,8 @@ One device per TinyPilot, with:
 
 | Entity | Type | Notes |
 | :--- | :--- | :--- |
-| Video source online | `binary_sensor` | Connectivity |
+| Video signal | `binary_sensor` | Connectivity. Whether there's an active picture right now. **Off covers both "target asleep/blanked" and "nothing plugged in"** -- see note below. |
+| Video capture online | `binary_sensor` | Diagnostic. Whether the KVM's own encoder/streaming pipeline is healthy, independent of whether there's a picture to encode. |
 | Keyboard ready / Mouse ready | `binary_sensor` | Diagnostic, HID device availability |
 | Mouse jiggler | `switch` | Idempotent on/off |
 | One button per allowlisted script | `button` | e.g. "Calendar Extractor" |
@@ -22,6 +23,17 @@ Plus three services for use in automations/scripts:
 - `tinypilot.paste_text` — type text via HID keyboard
 - `tinypilot.send_keystroke` — a single key or combo (Ctrl/Shift/Alt/Meta)
 - `tinypilot.run_script` — run any allowlisted user script by name
+
+### A note on "Video signal"
+
+This sensor answers "is there a picture right now," not "is a PC plugged
+in." On TinyPilot's tc358743/unicam-based capture hardware, the V4L2 driver
+only exposes a `NO_SIGNAL` status bit (confirmed via `v4l2-ctl --get-input`
+on the device) -- there's no separate "no power/no cable" bit, so a
+target machine that's asleep or has its display blanked looks identical,
+in software, to nothing being connected at all. "Video capture online"
+tells you the KVM's own pipeline is healthy even when "Video signal" is
+off, which at least rules out a broken capture card as the cause.
 
 ## Requirements
 

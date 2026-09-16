@@ -13,8 +13,9 @@ STATUS_PAYLOAD = {
     "status": "ok",
     "hostname": "tinypilot",
     "tinypilot_version": "2.8.0",
-    "api_version": "1.2.0",
-    "video_online": True,
+    "api_version": "1.3.0",
+    "video_online": False,
+    "capture_online": True,
     "jiggler_enabled": False,
     "keyboard": {"ready": True},
     "mouse": {"ready": True},
@@ -37,7 +38,8 @@ async def test_setup_creates_entities(hass: HomeAssistant, mock_config_entry) ->
 
     assert mock_config_entry.state is ConfigEntryState.LOADED
 
-    assert hass.states.get("binary_sensor.tinypilot_video_source_online").state == "on"
+    assert hass.states.get("binary_sensor.tinypilot_video_signal").state == "off"
+    assert hass.states.get("binary_sensor.tinypilot_video_capture_online").state == "on"
     assert hass.states.get("switch.tinypilot_mouse_jiggler").state == "off"
     assert hass.states.get("sensor.tinypilot_tinypilot_version").state == "2.8.0"
     assert hass.states.get("button.tinypilot_calendar_extractor") is not None

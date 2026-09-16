@@ -27,11 +27,23 @@ class TinyPilotBinarySensorDescription(BinarySensorEntityDescription):
 
 
 BINARY_SENSORS: tuple[TinyPilotBinarySensorDescription, ...] = (
+    # "There is an active picture right now." False covers BOTH the target
+    # machine being asleep/blanked AND nothing being plugged in -- this
+    # hardware's capture chain only exposes a NO_SIGNAL status bit, not a
+    # separate no-cable one, so those two cases aren't distinguishable here.
     TinyPilotBinarySensorDescription(
         key="video_online",
         translation_key="video_online",
         device_class=BinarySensorDeviceClass.CONNECTIVITY,
         is_on_fn=lambda data: data.get("video_online"),
+    ),
+    # Whether the KVM's own encoder/streaming pipeline is healthy, independent
+    # of whether there's currently a picture to encode.
+    TinyPilotBinarySensorDescription(
+        key="capture_online",
+        translation_key="capture_online",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        is_on_fn=lambda data: data.get("capture_online"),
     ),
     TinyPilotBinarySensorDescription(
         key="keyboard_ready",

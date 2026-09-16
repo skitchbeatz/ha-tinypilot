@@ -34,7 +34,8 @@
   },
   "entity": {
     "binary_sensor": {
-      "video_online": { "name": "Video source online" },
+      "video_online": { "name": "Video signal" },
+      "capture_online": { "name": "Video capture online" },
       "keyboard_ready": { "name": "Keyboard ready" },
       "mouse_ready": { "name": "Mouse ready" }
     },
